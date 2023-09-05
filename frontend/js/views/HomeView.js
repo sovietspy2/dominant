@@ -1,6 +1,4 @@
 import AbstractView  from "./AbstractView";
-import CustomDialog from "../components/Dialog";
-
 export default class HomeView extends AbstractView {
     constructor(params) {
         super(params);
@@ -9,7 +7,7 @@ export default class HomeView extends AbstractView {
 
     async getHtml() {
         return `
-        <custom-dialog>Hello</custom-dialog>
+  
         <article>
           <h2>
             My first post

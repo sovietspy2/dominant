@@ -21,7 +21,7 @@
         <ul>
           <li><a href="/home" data-link>home</a></li>
           <li><a id="login" href="/login" data-link>login</a></li>
-          <li><a id="register" href="#" data-link>register</a></li>
+          <li><a id="register" href="/register" data-link>register</a></li>
           <li><a href="/settings" data-link>settings</a></li>
           <li><a href="/protected" data-link>protected</a></li>
         </ul>
@@ -30,22 +30,8 @@
       <main>
         <div id="app"></div>
 
-        <dialog id="registerDialog">
-          <p>Please log in!</p>
-          <form method="dialog">
-
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username" required><br><br>
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required><br><br>
-          
-            <div>
-              <button value="cancel" formmethod="dialog">Cancel</button>
-              <button id="confirmBtn" value="register">Register</button>
-            </div>
-          </form>
-        </dialog>
-  
+        <custom-dialog dialogTitle='Register' auth-event-type='register'></custom-dialog>
+        <custom-dialog dialogTitle='Login' auth-event-type='login'></custom-dialog>
       </main>
   
     </div>

@@ -1,8 +1,8 @@
 import HomeView from "./views/HomeView";
-import LoginView from "./views/LoginView";
 import ProtectedView from "./views/ProtectedView";
 import SettingsView from "./views/SettingsView";
 
+import AuthDialog from "./components/AuthDialog";
 
 
 
@@ -29,7 +29,8 @@ const navigateTo = url => {
 const router = async () => {
     const routes = [
         { path: "/", view: HomeView },
-        { path: "/login", view: LoginView },
+        { path: "/login", view: HomeView },
+        { path: "/register", view: HomeView },
         { path: "/settings/:id", view: SettingsView },
         { path: "/settings", view: SettingsView },
         { path: "/protected", view: ProtectedView }
@@ -72,58 +73,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-// REGISTER DIALOG
+// DIALOGS 
+const registerButton = document.getElementById("register");
+const registerDialog = document.querySelector('custom-dialog[auth-event-type="register"');
 
-const register = document.getElementById("register");
-
-const registerDialog = document.getElementById("registerDialog");
-const usernameField = registerDialog.querySelector('[type="text"]');
-const passwordField = registerDialog.querySelector('[type="password"]');
-const cancelButton = registerDialog.querySelector(['button[value="cancel"]']);
-const registerButton = registerDialog.querySelector(['button[value="register"]']);
-
-register.addEventListener("click", (event) => {
-    console.log(event);
-    registerDialog.show();
-    console.log(usernameField)
+registerButton.addEventListener("click", (event) => {
+    registerDialog.openDialog();
 });
 
-// close event of dialog - 
-registerDialog.addEventListener("close", (e) => {
-    console.log("closing the dialog")
+const loginDialog = document.querySelector('custom-dialog[auth-event-type="login"');
+const loginButton = document.getElementById("login");
+loginButton.addEventListener("click", (event) => {
+    loginDialog.openDialog();
 });
 
-registerDialog.addEventListener("submit", async (e) => {
-    //event.preventDefault();
-    registerDialog.close();
-
-    const data = await registerLogic(usernameField.value, passwordField.value);
-    console.log(data);
-});
-
-cancelButton.addEventListener("click", (event => {
-    event.preventDefault();
-    registerDialog.close();
-}));
-
-registerButton.addEventListener("click", (async event => {
-    
-}));
-
-async function registerLogic(username, password) {
-    const response = await fetch('http://localhost:5000/reg',  {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json', 
-    },
-    body: JSON.stringify({username, password})
-    });
-  
-    if (!response.ok) {
-      const message = `An error has occurred: ${response.status}`;
-      throw new Error(message);
-    }
-  
-    const data = await response.json();
-    return data;
-  }
