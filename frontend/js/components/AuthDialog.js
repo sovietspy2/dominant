@@ -1,15 +1,14 @@
-
 export default class AuthDialog extends HTMLElement {
-            constructor() {
-              super();
-          
-              //const template = document.getElementById('login-dialog-template');
+  constructor() {
+    super();
 
-              const div = document.createElement('div');
+    //const template = document.getElementById('login-dialog-template');
 
-              div.innerHTML = `
+    const div = document.createElement("div");
+
+    div.innerHTML = `
                   <dialog id="login-dialog">
-                    <h2>${this.getAttribute('dialogTitle')}</h2>
+                    <h2>${this.getAttribute("dialogTitle")}</h2>
                     <span id="error"></span>
                     <label for="username">Username:</label>
                     <input type="text" id="username" required>
@@ -18,14 +17,14 @@ export default class AuthDialog extends HTMLElement {
                     <button id="close-button">Close</button>
                     <button id="submit-button">Log In</button>
                 </dialog>`;
-          
-              this.attachShadow({ mode: "open" });
-          
-              this.shadowRoot.appendChild(div);
-          
-              // You can also style the elements within the shadow DOM
-              const style = document.createElement("style");
-              style.textContent = `
+
+    this.attachShadow({ mode: "open" });
+
+    this.shadowRoot.appendChild(div);
+
+    // You can also style the elements within the shadow DOM
+    const style = document.createElement("style");
+    style.textContent = `
               #login-dialog {
                   width: 300px;
                   padding: 20px;
@@ -100,107 +99,86 @@ export default class AuthDialog extends HTMLElement {
                   background-color: #0056b3;
               }
           `;
-              this.shadowRoot.appendChild(style);
-        
-        }
+    this.shadowRoot.appendChild(style);
+  }
 
+  connectedCallback() {
+    // Attach event listeners when the component is connected to the DOM
+    const closeButton = this.shadowRoot.getElementById("close-button");
+    const submitButton = this.shadowRoot.getElementById("submit-button");
 
-        connectedCallback() {
-            // Attach event listeners when the component is connected to the DOM
-            const closeButton = this.shadowRoot.getElementById('close-button');
-            const submitButton = this.shadowRoot.getElementById('submit-button');
+    closeButton.addEventListener("click", (e) => {
+      e.preventDefault();
+      this.close();
+    });
 
-            
-    
+    submitButton.addEventListener("click", async (e) => {
+      const type = this.getAttribute("auth-event-type");
+      const usernameField = this.shadowRoot.querySelector('[type="text"]');
+      const passwordField = this.shadowRoot.querySelector('[type="password"]');
 
-            closeButton.addEventListener('click', (e) => {
-                e.preventDefault();
-                this.close();
-            });
+      let response = null;
 
-            submitButton.addEventListener('click', async (e) => {
-                
-                const type = this.getAttribute("auth-event-type"); 
-                const usernameField = this.shadowRoot.querySelector('[type="text"]');
-                const passwordField = this.shadowRoot.querySelector('[type="password"]');
+      if (type === "register") {
+        // register logic
 
-                let response = null;
+        response = await this.register(
+          usernameField.value,
+          passwordField.value
+        );
 
-                debugger;
+        console.log("user registered");
+      }
+      if (type === "login") {
+        response = await this.login(usernameField.value, passwordField.value);
 
-                if (type === 'register') {
-                    // register logic
+        console.log("user authenticated");
+      }
 
+      if (!response.ok) {
+        console.error(response);
 
-                    response = await this.register(usernameField.value, passwordField.value);
+        const error = this.shadowRoot.getElementById("error");
+        error.innerText = "We have a problem, try again!";
 
-                    console.log("user registered");
+      this.close();
+    });;
+  }
 
-                } if (type === 'login') {
+  close() {
+    const dialog = this.shadowRoot.querySelector("dialog");
+    dialog.removeAttribute("open");
+  }
 
-                    response = await this.login(usernameField.value, passwordField.value);
-                    
-                    console.log("user authenticated")
-                } 
+  openDialog() {
+    const dialog = this.shadowRoot.querySelector("dialog");
+    dialog.setAttribute("open", true);
+  }
 
-                if (!response.ok) {
-                    console.error(response);
-      
-                    const error = this.shadowRoot.getElementById("error");
-                    error.innerText = "We have a problem, try again!"
-                  }
-//
-                //if ()
+  async register(username, password) {
+    const response = await fetch("http://localhost:5000/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ username, password }),
+    });
 
+    return response;
+  }
 
-                this.close();
-            });
-            
-            console.log("RENDERED AUTH DIALOG")
-        }
+  async login(username, password) {
+    const response = await fetch("http://localhost:5000/login", {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ username, password }),
+    });
 
-        close() {
-            const dialog = this.shadowRoot.querySelector('dialog');
-            dialog.removeAttribute('open');
-        }
-
-        openDialog() {
-            const dialog = this.shadowRoot.querySelector('dialog');
-            dialog.setAttribute('open', true)
-        }
-
-        async register(username, password) {
-
-            const response = await fetch('http://localhost:5000/register',  {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json', 
-            },
-            body: JSON.stringify({username, password})
-            });
-    
-          
-            return response;
-          }
-
-          async login(username, password) {
-            const response = await fetch('http://localhost:5000/login',  {
-              method: 'POST',
-              credentials: 'include',
-              headers: {
-                'Content-Type': 'application/json', 
-            },
-            body: JSON.stringify({username, password})
-            });
-          
-            
-          
-            //const data = await response.json();
-            //console.log(data);
-            return response;
-          }
+    return response;
+  }
 }
 
-customElements.define('custom-dialog', AuthDialog);
-
-        
+customElements.define("custom-dialog", AuthDialog);
