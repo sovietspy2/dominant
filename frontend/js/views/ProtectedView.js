@@ -1,5 +1,6 @@
 import AbstractView  from "./AbstractView";
 
+import { getCookie } from "../utils/cookieUtils";
 export default class ProtectedView extends AbstractView {
     constructor(params) {
         super(params);
@@ -18,7 +19,7 @@ export default class ProtectedView extends AbstractView {
       credentials: 'include',
       headers: {
         'Content-Type': 'application/json', 
-        'X-CSRF-TOKEN': this.getCookie('csrf_access_token'),
+        'X-CSRF-TOKEN': getCookie('csrf_access_token'),
     }});
   
     if (!response.ok) {
@@ -31,9 +32,5 @@ export default class ProtectedView extends AbstractView {
     return data.logged_in_as;
     }
 
-    getCookie(name) {
-        const value = `; ${document.cookie}`;
-        const parts = value.split(`; ${name}=`);
-        if (parts.length === 2) return parts.pop().split(';').shift();
-      }
+  
 }

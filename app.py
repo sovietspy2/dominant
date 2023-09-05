@@ -50,6 +50,13 @@ def protected():
     current_user = get_jwt_identity()
     return jsonify(logged_in_as=current_user), 200
 
+
+@app.route('/user', methods=['POST'])
+@jwt_required(locations=["cookies"])
+def user():
+    current_user = get_jwt_identity()
+    return jsonify(username=current_user), 200
+
 if __name__ == '__main__':
     app.run(debug=True)
 

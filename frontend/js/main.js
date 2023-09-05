@@ -3,6 +3,7 @@ import ProtectedView from "./views/ProtectedView";
 import SettingsView from "./views/SettingsView";
 
 import AuthDialog from "./components/AuthDialog";
+import UserInfo from "./components/UserInfo";
 
 // MAIN APP ROUTER
 

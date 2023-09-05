@@ -128,9 +128,10 @@ export default class AuthDialog extends HTMLElement {
         );
 
         console.log("user registered");
-      }
-      if (type === "login") {
+      } else if (type === "login") {
         response = await this.login(usernameField.value, passwordField.value);
+
+        this.fireLoginEvent();
 
         console.log("user authenticated");
       }
@@ -140,10 +141,24 @@ export default class AuthDialog extends HTMLElement {
 
         const error = this.shadowRoot.getElementById("error");
         error.innerText = "We have a problem, try again!";
+        
+    }
 
       this.close();
-    });;
+    });
   }
+
+  async fireLoginEvent() {
+
+    const loginEvent = new CustomEvent('loginEvent', {
+        detail: { message: 'hello there, somebody logged in LoL' },
+        bubbles: true, // Allow event to bubble up the DOM tree
+    });
+
+    this.dispatchEvent(loginEvent)
+  }
+
+
 
   close() {
     const dialog = this.shadowRoot.querySelector("dialog");
