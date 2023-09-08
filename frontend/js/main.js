@@ -7,7 +7,7 @@ import "./components/Chat";
 import AuthDialog from "./components/AuthDialog";
 import UserInfo from "./components/UserInfo";
 import LogoutView from "./views/LogoutView";
-import { logout } from "./utils/http";
+import { logoutApp } from "./utils/http";
 
 
 // MAIN APP ROUTER
@@ -79,28 +79,32 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   router();
+  
 });
+addAppEventListeners();
 
-// GLOBAL LINKS
-const registerButton = document.getElementById("register");
-const registerDialog = document.querySelector(
-  'custom-dialog[auth-event-type="register"'
-);
+function addAppEventListeners() {
+    // GLOBAL LINKS
+  const registerButton = document.getElementById("register");
+  const registerDialog = document.querySelector(
+    'custom-dialog[auth-event-type="register"'
+  );
 
-registerButton.addEventListener("click", (event) => {
-  registerDialog.openDialog();
-});
+  registerButton.addEventListener("click", (event) => {
+    registerDialog.openDialog();
+  });
 
-const loginDialog = document.querySelector(
-  'custom-dialog[auth-event-type="login"'
-);
-const loginButton = document.getElementById("login");
-loginButton.addEventListener("click", (event) => {
-  loginDialog.openDialog();
-});
+  const loginDialog = document.querySelector(
+    'custom-dialog[auth-event-type="login"'
+  );
+  const loginButton = document.getElementById("login");
+  loginButton.addEventListener("click", (event) => {
+    loginDialog.openDialog();
+  });
 
-const logoutButton = document.getElementById("logout");
-logoutButton.addEventListener("click", async (e)=> {
-  logout();
-});
+  const logoutButton = document.getElementById("logout");
+  logoutButton.addEventListener("click", async (e)=> {
+    logout();
+  });
+}
 

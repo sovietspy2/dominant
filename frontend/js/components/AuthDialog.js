@@ -1,3 +1,5 @@
+import { loginApp, registerApp } from "../utils/http";
+
 export default class AuthDialog extends HTMLElement {
   constructor() {
     super();
@@ -114,14 +116,15 @@ export default class AuthDialog extends HTMLElement {
   connectedCallback() {
     // Attach event listeners when the component is connected to the DOM
     const closeButton = this.shadowRoot.getElementById("close-button");
-    const submitButton = this.shadowRoot.getElementById("submit-button");
+    const form = this.shadowRoot.querySelector("form");
 
     closeButton.addEventListener("click", (e) => {
       e.preventDefault();
       this.close();
     });
 
-    submitButton.addEventListener("click", async (e) => {
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
 
       const type = this.getAttribute("auth-event-type");
       const usernameField = this.shadowRoot.querySelector('[type="text"]');
@@ -132,14 +135,14 @@ export default class AuthDialog extends HTMLElement {
       let response = null;
 
       if (type === "register") {
-
-        response = await this.register(
+ 
+        response = await registerApp(
           usernameField.value,
           passwordField.value
         );
         console.log("user registered");
       } else if (type === "login") {
-        response = await this.login(usernameField.value, passwordField.value);
+        response = await loginApp(usernameField.value, passwordField.value);
 
         this.fireLoginEvent();
         console.log("user authenticated");
@@ -174,31 +177,6 @@ export default class AuthDialog extends HTMLElement {
   openDialog() {
     const dialog = this.shadowRoot.querySelector("dialog");
     dialog.setAttribute("open", true);
-  }
-
-  async register(username, password) {
-    const response = await fetch("http://localhost:5000/register", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ username, password }),
-    });
-
-    return response;
-  }
-
-  async login(username, password) {
-    const response = await fetch("http://localhost:5000/login", {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ username, password }),
-    });
-
-    return response;
   }
 }
 

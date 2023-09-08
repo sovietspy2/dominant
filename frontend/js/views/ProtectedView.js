@@ -1,6 +1,7 @@
 import AbstractView  from "./AbstractView";
 
 import { getCookie } from "../utils/cookieUtils";
+
 export default class ProtectedView extends AbstractView {
     constructor(params) {
         super(params);
