@@ -6,6 +6,8 @@ import SettingsView from "./views/SettingsView";
 import "./components/Chat";
 import AuthDialog from "./components/AuthDialog";
 import UserInfo from "./components/UserInfo";
+import LogoutView from "./views/LogoutView";
+import { logout } from "./utils/http";
 
 
 // MAIN APP ROUTER
@@ -39,6 +41,7 @@ const router = async () => {
     { path: "/settings/:id", view: SettingsView },
     { path: "/settings", view: SettingsView },
     { path: "/protected", view: ProtectedView },
+    { path: "/logout", view: LogoutView}
   ];
 
   // Test each route for potential match
@@ -78,7 +81,7 @@ document.addEventListener("DOMContentLoaded", () => {
   router();
 });
 
-// DIALOGS
+// GLOBAL LINKS
 const registerButton = document.getElementById("register");
 const registerDialog = document.querySelector(
   'custom-dialog[auth-event-type="register"'
@@ -95,3 +98,9 @@ const loginButton = document.getElementById("login");
 loginButton.addEventListener("click", (event) => {
   loginDialog.openDialog();
 });
+
+const logoutButton = document.getElementById("logout");
+logoutButton.addEventListener("click", async (e)=> {
+  logout();
+});
+

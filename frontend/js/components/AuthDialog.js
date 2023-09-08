@@ -1,19 +1,21 @@
 export default class AuthDialog extends HTMLElement {
   constructor() {
     super();
-    
+
     const div = document.createElement("div");
 
     div.innerHTML = `
                   <dialog id="login-dialog">
+                    <form>
                     <h2>${this.getAttribute("dialogTitle")}</h2>
                     <span id="error"></span>
                     <label for="username">Username:</label>
-                    <input type="text" id="username" required>
+                    <input type="text" required id="username" required>
                     <label for="password">Password:</label>
-                    <input type="password" id="password" required>
+                    <input type="password" required id="password" required>
                     <button id="close-button">Close</button>
-                    <button id="submit-button">Log In</button>
+                    <button type="submit" id="submit-button">${this.getButtonText()}</button>
+                  </form>
                 </dialog>`;
 
     this.attachShadow({ mode: "open" });
@@ -100,6 +102,15 @@ export default class AuthDialog extends HTMLElement {
     this.shadowRoot.appendChild(style);
   }
 
+  getButtonText() {
+    const type = this.getAttribute("auth-event-type");
+    if (type === "register") {
+      return "Register";
+    } else {
+      return "Login";
+    }
+  }
+
   connectedCallback() {
     // Attach event listeners when the component is connected to the DOM
     const closeButton = this.shadowRoot.getElementById("close-button");
@@ -111,52 +122,49 @@ export default class AuthDialog extends HTMLElement {
     });
 
     submitButton.addEventListener("click", async (e) => {
+
       const type = this.getAttribute("auth-event-type");
       const usernameField = this.shadowRoot.querySelector('[type="text"]');
       const passwordField = this.shadowRoot.querySelector('[type="password"]');
 
+      if (!usernameField.value || !passwordField.value) return;
+
       let response = null;
 
       if (type === "register") {
-        // register logic
 
         response = await this.register(
           usernameField.value,
           passwordField.value
         );
-
         console.log("user registered");
       } else if (type === "login") {
         response = await this.login(usernameField.value, passwordField.value);
 
         this.fireLoginEvent();
-
         console.log("user authenticated");
       }
 
       if (!response.ok) {
-        console.error(response);
-
+        const data = await response.json();
         const error = this.shadowRoot.getElementById("error");
-        error.innerText = "We have a problem, try again!";
-        
-    }
+        error.innerText = data.message;
 
-      this.close();
+        console.warn(response);
+      } else {
+        this.close();
+      }
     });
   }
 
   async fireLoginEvent() {
-
-    const loginEvent = new CustomEvent('loginEvent', {
-        detail: { message: 'hello there, somebody logged in LoL' },
-        bubbles: true, // Allow event to bubble up the DOM tree
+    const loginEvent = new CustomEvent("loginEvent", {
+      detail: { message: "hello there, somebody logged in LoL" },
+      bubbles: true, // Allow event to bubble up the DOM tree
     });
 
-    this.dispatchEvent(loginEvent)
+    this.dispatchEvent(loginEvent);
   }
-
-
 
   close() {
     const dialog = this.shadowRoot.querySelector("dialog");
