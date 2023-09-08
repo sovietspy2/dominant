@@ -9,6 +9,5 @@ export default class extends AbstractView {
 
     async getHtml() {
         return `<div><p>  this is settings and your param is ${this.postId}</p></div>`
-        
     }
 }

@@ -1,9 +1,7 @@
 export default class AuthDialog extends HTMLElement {
   constructor() {
     super();
-
-    //const template = document.getElementById('login-dialog-template');
-
+    
     const div = document.createElement("div");
 
     div.innerHTML = `

@@ -2,10 +2,7 @@
     "name": "dominant",
     "source": "index.html",
     "scripts": {
-      "start": "parcel",
-      "build": "parcel build"
-    },
-    "devDependencies": {
-      "parcel": "latest"
+        "start": "parcel",
+        "build": "parcel build"
     }
-  }
+}

@@ -9,8 +9,7 @@ export default class ProtectedView extends AbstractView {
     }
 
     async getHtml() {
-        return `<div><p>data from protected api: ${await this.loadUserData()}</p></div>`
-        
+        return `<div><p>data from protected api: ${await this.loadUserData()}</p><chat-component></chat-component></div>`
     }
 
     async loadUserData() {

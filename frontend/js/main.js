@@ -2,8 +2,11 @@ import HomeView from "./views/HomeView";
 import ProtectedView from "./views/ProtectedView";
 import SettingsView from "./views/SettingsView";
 
+
+import "./components/Chat";
 import AuthDialog from "./components/AuthDialog";
 import UserInfo from "./components/UserInfo";
+
 
 // MAIN APP ROUTER
 
