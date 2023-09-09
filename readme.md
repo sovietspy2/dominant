@@ -9,6 +9,6 @@
 - `npm install`
 - `npm start`
 
-#s upported versions: 
+# supported versions: 
 - `Python 3.11+`
 - `npm 8.19.2`
