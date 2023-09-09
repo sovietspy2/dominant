@@ -2,7 +2,7 @@
     "name": "dominant",
     "source": "index.html",
     "scripts": {
-        "start": "parcel",
+        "start": "parcel index.html",
         "build": "parcel build"
     }
 }
