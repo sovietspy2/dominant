@@ -1,4 +1,5 @@
 import { getCookie } from "../utils/cookieUtils";
+import { loadUserDataApp, loadUsernameApp } from "../utils/http";
 
 export default class UserInfo extends HTMLElement {
   constructor() {
@@ -36,15 +37,8 @@ export default class UserInfo extends HTMLElement {
   }
 
   async loadUsername() {
-    const response = await fetch("http://localhost:5000/user", {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-        'X-CSRF-TOKEN': getCookie('csrf_access_token'),
-      }
-    });
-
+    
+    const response = await loadUsernameApp();
     const data = await response.json();
 
     return data.username;

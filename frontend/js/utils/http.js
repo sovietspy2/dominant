@@ -1,6 +1,6 @@
 import { getCookie } from "./cookieUtils";
 
-export { logoutApp, loginApp, registerApp, loadUserDataApp };
+export { logoutApp, loginApp, registerApp, loadUserDataApp, loadUsernameApp };
 
 async function logoutApp() {
   const response = await fetch(`${process.env.API}/logout`, {
@@ -44,4 +44,16 @@ async function loadUserDataApp() {
       'Content-Type': 'application/json', 
       'X-CSRF-TOKEN': getCookie('csrf_access_token'),
   }});
+}
+
+async function loadUsernameApp() {
+  const response = await fetch(`${process.env.API}/user`, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+        'X-CSRF-TOKEN': getCookie('csrf_access_token'),
+      }
+    });
+    return response;
 }
