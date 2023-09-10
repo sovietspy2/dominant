@@ -3,11 +3,13 @@ import HomeView from "./views/HomeView";
 import ProtectedView from "./views/ProtectedView";
 import SettingsView from "./views/SettingsView";
 import LogoutView from "./views/LogoutView";
+import UserProfileView from "./views/UserProfileView";
 
 
 import "./components/Chat";
 import "./components/AuthDialog";
 import "./components/UserInfo";
+import "./components/UserEditor.js";
 
 import { logoutApp } from "./utils/http";
 
@@ -43,7 +45,8 @@ const router = async () => {
     { path: "/settings/:id", view: SettingsView },
     { path: "/settings", view: SettingsView },
     { path: "/protected", view: ProtectedView },
-    { path: "/logout", view: LogoutView}
+    { path: "/logout", view: LogoutView},
+    { path: "/user", view: UserProfileView}
   ];
 
   // Test each route for potential match
