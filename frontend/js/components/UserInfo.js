@@ -1,7 +1,7 @@
 import { getCookie } from "../utils/cookieUtils";
 import { loadUserDataApp, loadUsernameApp } from "../utils/http";
 
-export default class UserInfo extends HTMLElement {
+class UserInfo extends HTMLElement {
   constructor() {
     super();
     const style = document.createElement("style");

@@ -1,6 +1,6 @@
 import { loginApp, registerApp } from "../utils/http";
 
-export default class AuthDialog extends HTMLElement {
+class AuthDialog extends HTMLElement {
   constructor() {
     super();
 
