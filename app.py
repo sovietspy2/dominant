@@ -15,7 +15,7 @@ CORS(app, supports_credentials=True, origins=['http://localhost:1234'])
 
 connection = sqlite3.connect("database.db")
 
-@app.route('/register', methods=['POST'])
+@app.route('/api/register', methods=['POST'])
 def register():
     data = request.json
     username = data.get('username')
@@ -43,7 +43,7 @@ def register():
 
 # Existing login and protected endpoints...
 
-@app.route('/login', methods=['POST'])
+@app.route('/api/login', methods=['POST'])
 def login():
     username = request.json.get('username')
     password = request.json.get('password')
@@ -64,21 +64,21 @@ def login():
 
     return jsonify({"message": "Invalid credentials"}), 400
 
-@app.route('/protected', methods=['POST'])
+@app.route('/api/protected', methods=['POST'])
 @jwt_required()
 def protected():
     current_user = get_jwt_identity()
     return jsonify(logged_in_as=current_user), 200
 
 
-@app.route('/user', methods=['POST'])
+@app.route('/api/user', methods=['POST'])
 @jwt_required(locations=["cookies"])
 def user():
     current_user = get_jwt_identity()
     return jsonify(username=current_user), 200
 
 # Logout route
-@app.route("/logout", methods=["POST"])
+@app.route("/api/logout", methods=["POST"])
 def logout():
     # In this example, we don't refresh the token, effectively "logging out"
     resp = jsonify({"message": "Logout successful"})
@@ -115,6 +115,6 @@ def refresh_expired_token(response):
     return response
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0', port=5000)
 
 

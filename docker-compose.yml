@@ -1,0 +1,20 @@
+version: '3'
+services:
+  static-app:
+    networks:
+      - app-network
+    build:
+      context: ./frontend
+    ports:
+      - "8080:80" # Map container port 80 to host port 8080
+    depends_on:
+      - flask-app
+
+  flask-app:
+    networks:
+      - app-network
+    build:
+      context: .
+
+networks:
+  app-network:
