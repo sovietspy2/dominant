@@ -1,4 +1,4 @@
-export { logoutApp, loginApp, registerApp };
+export { logoutApp, loginApp, registerApp, loadUserDataApp };
 
 async function logoutApp() {
   const response = await fetch("http://localhost:5000/logout", {
@@ -32,4 +32,14 @@ async function loginApp(username, password) {
   });
 
   return response;
+}
+
+async function loadUserDataApp() {
+  const response = await fetch('http://localhost:5000/protected',  {
+    method: 'POST',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json', 
+      'X-CSRF-TOKEN': getCookie('csrf_access_token'),
+  }});
 }

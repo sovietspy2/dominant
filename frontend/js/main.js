@@ -1,3 +1,5 @@
+console.log("API URL: ${process.env.API}");
+
 import HomeView from "./views/HomeView";
 import ProtectedView from "./views/ProtectedView";
 import SettingsView from "./views/SettingsView";

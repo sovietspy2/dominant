@@ -1,6 +1,5 @@
+import { loadUserDataApp } from "../utils/http";
 import AbstractView  from "./AbstractView";
-
-import { getCookie } from "../utils/cookieUtils";
 
 export default class ProtectedView extends AbstractView {
     constructor(params) {
@@ -14,13 +13,8 @@ export default class ProtectedView extends AbstractView {
     }
 
     async loadUserData() {
-    const response = await fetch('http://localhost:5000/protected',  {
-      method: 'POST',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json', 
-        'X-CSRF-TOKEN': getCookie('csrf_access_token'),
-    }});
+    
+      const response = loadUserDataApp();
   
     if (!response.ok) {
       const message = `An error has occurred: ${response.status}`;
