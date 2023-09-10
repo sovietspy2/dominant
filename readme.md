@@ -11,4 +11,8 @@
 
 # supported versions: 
 - `Python 3.11+`
-- `npm 8.19.2`
+- `npm 8.19.2+`
+
+# running app in docker
+- `./docker-build-and-run.sh`
+- `visit http://localhost:8080/`
