@@ -8,24 +8,15 @@ class UserEditor extends HTMLElement {
         form.innerHTML = `
             <h3> User editor form</h3>
 
-            <div class="row">
-                <label for="username">username</label>
-                <input type="text" id="username">
-            </div>
-
-            <div class="row">
-                <label for="fullname"> Full name</label>
-                <input type="text" id="fullaname">
-            </div>
-
-            <div class="row">
-                <label for="email">Email</label>
-                <input type="email" id="email">
-            </div>
+            <dominant-textfield label="Username"></dominant-textfield>
+            <dominant-textfield label="Full name"></dominant-textfield>
+            <dominant-textfield label="Email"></dominant-textfield>
 
             <div class="control">
                 <button>Save</button>
              </div>
+
+             
         `;
 
         this.attachShadow({mode: "open"});
@@ -44,43 +35,6 @@ class UserEditor extends HTMLElement {
 
             h1 {
                 text-align: center;
-            }
-
-            .row {
-                display: flex;
-                margin: 0.4rem;
-                border: 2px solid gray;
-                border-radius: 4px;
-                align-items: center;
-            }
-
-            .row > label {
-                text-align: center;
-                background-color: lavenderblush;
-                border-right: 2px solid gray;
-            }
-
-            .row > input {
-                border: 0;
-                padding-left: 1rem;
-            }
-
-            .row > * {
-                height: 100%;
-                display: block;
-                width: 50%;
-                line-height: 2rem;
-            }
-
-            input[type=text]:focus {
-                padding: 0.5rem;
-                padding-left: 1rem;
-            }
-
-            .control {
-                display: flex;
-                justify-content: flex-end;
-                padding-right: 0.4rem; 
             }
 
             .control > button {

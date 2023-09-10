@@ -9,7 +9,8 @@ import UserProfileView from "./views/UserProfileView";
 import "./components/Chat";
 import "./components/AuthDialog";
 import "./components/UserInfo";
-import "./components/UserEditor.js";
+import "./components/UserEditor";
+import "./components/TextField";
 
 import { logoutApp } from "./utils/http";
 
