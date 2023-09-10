@@ -3,4 +3,5 @@ venv
 frontend/dist
 frontend/package-lock.json
 frontend/.parcel-cache
+frontend/node_modules
 __pycache__

@@ -2,7 +2,10 @@
     "name": "dominant",
     "source": "index.html",
     "scripts": {
-        "start": "parcel index.html",
-        "build": "parcel build"
+        "start": "NODE_ENV=development parcel index.html",
+        "build": "NODE_ENV=prod parcel build"
+    },
+    "dependencies": {
+        "parcel": "^2.8.0"
     }
 }

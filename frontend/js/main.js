@@ -1,4 +1,3 @@
-console.log("API URL: ${process.env.API}");
 
 import HomeView from "./views/HomeView";
 import ProtectedView from "./views/ProtectedView";
@@ -106,7 +105,9 @@ function addAppEventListeners() {
 
   const logoutButton = document.getElementById("logout");
   logoutButton.addEventListener("click", async (e)=> {
-    logout();
+    logoutApp();
   });
 }
 
+
+console.log(`API URL: ${process.env.API}`);

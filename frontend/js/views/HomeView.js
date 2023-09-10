@@ -7,7 +7,7 @@ export default class HomeView extends AbstractView {
 
     async getHtml() {
         return `
-  
+        <h1>${process.env.API}</h1>
         <article>
           <h2>
             My first post

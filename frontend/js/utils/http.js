@@ -1,7 +1,9 @@
+import { getCookie } from "./cookieUtils";
+
 export { logoutApp, loginApp, registerApp, loadUserDataApp };
 
 async function logoutApp() {
-  const response = await fetch("http://localhost:5000/logout", {
+  const response = await fetch(`${process.env.API}/logout`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -10,7 +12,7 @@ async function logoutApp() {
 }
 
 async function registerApp(username, password) {
-  const response = await fetch("http://localhost:5000/register", {
+  const response = await fetch(`${process.env.API}/register`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -22,7 +24,7 @@ async function registerApp(username, password) {
 }
 
 async function loginApp(username, password) {
-  const response = await fetch("http://localhost:5000/login", {
+  const response = await fetch(`${process.env.API}/login`, {
     method: "POST",
     credentials: "include",
     headers: {
@@ -35,7 +37,7 @@ async function loginApp(username, password) {
 }
 
 async function loadUserDataApp() {
-  const response = await fetch('http://localhost:5000/protected',  {
+  const response = await fetch(`${process.env.API}/protected`,  {
     method: 'POST',
     credentials: 'include',
     headers: {

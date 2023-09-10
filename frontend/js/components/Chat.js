@@ -96,27 +96,27 @@ class Chat extends HTMLElement {
     const sendButton = this.shadowRoot.querySelector("button");
     sendButton.addEventListener("click", this.sendMessage.bind(this));
 
-    const socket = new WebSocket("ws://localhost:5000"); // Replace with your WebSocket server URL
-    this.socket = socket;
+    // const socket = new WebSocket("ws://localhost:5000"); // Replace with your WebSocket server URL
+    // this.socket = socket;
         
-        // Handle connection open event
-        socket.addEventListener("open", (event) => {
-            console.log("WebSocket connection opened.");
-        });
+    //     // Handle connection open event
+    //     socket.addEventListener("open", (event) => {
+    //         console.log("WebSocket connection opened.");
+    //     });
         
 
-        // Handle connection close event
-        socket.addEventListener("close", (event) => {
-            console.log("WebSocket connection closed.");
-        });
+    //     // Handle connection close event
+    //     socket.addEventListener("close", (event) => {
+    //         console.log("WebSocket connection closed.");
+    //     });
 
-        // Handle incoming messages from the server
-        socket.addEventListener("message", (event) => {
-            const messageContainer = document.getElementById("message-container");
-            const messageElement = document.createElement("div");
-            messageElement.textContent = event.data;
-            messageContainer.appendChild(messageElement);
-        });
+    //     // Handle incoming messages from the server
+    //     socket.addEventListener("message", (event) => {
+    //         const messageContainer = document.getElementById("message-container");
+    //         const messageElement = document.createElement("div");
+    //         messageElement.textContent = event.data;
+    //         messageContainer.appendChild(messageElement);
+    //     });
 
   }
 
