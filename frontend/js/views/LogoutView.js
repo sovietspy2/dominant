@@ -1,3 +1,4 @@
+import { Toast } from "../components/Toast";
 import AbstractView  from "./AbstractView";
 
 export default class extends AbstractView {
@@ -8,6 +9,9 @@ export default class extends AbstractView {
     }
 
     async getHtml() {
+
+        await Toast("Logged out!")
+
         return `<div><p>you logged out</p></div>`
     }
 }
