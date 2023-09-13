@@ -11,6 +11,7 @@ import "./components/AuthDialog";
 import "./components/UserInfo";
 import "./components/UserEditor";
 import "./components/TextField";
+import "./components/Toast";
 
 import { logoutApp } from "./utils/http";
 
