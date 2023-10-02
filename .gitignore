@@ -5,3 +5,4 @@ frontend/package-lock.json
 frontend/.parcel-cache
 frontend/node_modules
 __pycache__
+chat-microservice/node_modules

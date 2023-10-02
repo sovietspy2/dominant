@@ -1,3 +1,5 @@
+import { loadUsernameApp } from "../utils/http";
+
 class Chat extends HTMLElement {
   constructor() {
     super();
@@ -11,6 +13,7 @@ class Chat extends HTMLElement {
             .chat-container {
                 width: 95%;
                 margin: 0 auto;
+                margin-top: 2rem;
                 background-color: #f7f7f7;
                 border: 1px solid #e0e0e0;
                 border-radius: 5px;
@@ -69,12 +72,14 @@ class Chat extends HTMLElement {
                 cursor: pointer;
             }
         </style>
+        <template id="message-template">
+            <div class="message">
+                <span class="username">User1:</span>
+                <span class="message-content">Hello there!</span>
+            </div>
+        </template>
         <div class="chat-container">
-                    <div class="chat-messages">
-                        <div class="message">
-                            <span class="username">User1:</span>
-                            <span class="message-content">Hello there!</span>
-                        </div>
+                    <div class="chat-messages" id="message-container">
                         <div class="message">
                             <span class="username">User2:</span>
                             <span class="message-content">Hi, how are you?</span>
@@ -88,6 +93,40 @@ class Chat extends HTMLElement {
         </div>
         `;
 
+    // WEBSOCKET
+
+    this.socket = new WebSocket("ws://localhost:8888");
+
+    this.socket.onmessage = (event) => {
+      console.log(event);
+      const packet = JSON.parse(event.data);
+      //console.log(msg.message)
+
+      const template = this.shadowRoot.getElementById("message-template");
+
+      // Clone the template's content
+      const clone = document.importNode(template.content, true);
+
+      const messageContainer =
+        this.shadowRoot.getElementById("message-container");
+
+      //const messageElement = document.createElement("div");
+
+      const usernameSpan = clone.querySelector(".username");
+      const messageContentSpan = clone.querySelector(".message-content");
+
+      // Set text content
+      usernameSpan.textContent = packet.user;
+      messageContentSpan.textContent = packet.message;
+
+      //messageElement.textContent = packet.message;
+      if (messageContainer != null) {
+        messageContainer.appendChild(clone);
+      } else {
+        console.warn("message container was null");
+      }
+    };
+
     // Initialize variables for message input and chat box
     this.inputElement = this.shadowRoot.querySelector("input");
     this.chatBox = this.shadowRoot.querySelector(".chat-box");
@@ -98,12 +137,11 @@ class Chat extends HTMLElement {
 
     // const socket = new WebSocket("ws://localhost:5000"); // Replace with your WebSocket server URL
     // this.socket = socket;
-        
+
     //     // Handle connection open event
     //     socket.addEventListener("open", (event) => {
     //         console.log("WebSocket connection opened.");
     //     });
-        
 
     //     // Handle connection close event
     //     socket.addEventListener("close", (event) => {
@@ -117,29 +155,50 @@ class Chat extends HTMLElement {
     //         messageElement.textContent = event.data;
     //         messageContainer.appendChild(messageElement);
     //     });
-
   }
 
-  sendMessage() {
+  async sendMessage() {
     const messageText = this.inputElement.value;
     if (messageText.trim() === "") return;
 
     // Create a new message element
-    // const messageElement = document.createElement("div");
+    //const messageElement = document.createElement("div");
     // const usernameElement = document.createElement("div");
 
     // messageElement.className = "message user-message";
     // usernameElement.className = "message-username";
     // usernameElement.textContent = "You:";
 
-    // messageElement.textContent = messageText;
+    //messageElement.textContent = messageText;
 
     // Append the username and message to the chat box
     // messageElement.appendChild(usernameElement);
     // this.chatBox.appendChild(messageElement);
 
-    this.socket.send(messageText);
+    const packet = {
+      message: messageText,
+      user: await this.loadUsername(),
+    };
 
+    const template = this.shadowRoot.getElementById("message-template");
+
+    const clone = document.importNode(template.content, true);
+
+    const messageContainer =
+      this.shadowRoot.getElementById("message-container");
+
+    //const messageElement = document.createElement("div");
+
+    const usernameSpan = clone.querySelector(".username");
+    const messageContentSpan = clone.querySelector(".message-content");
+
+    // Set text content
+    usernameSpan.textContent = packet.user;
+    messageContentSpan.textContent = packet.message;
+
+    messageContainer.appendChild(clone);
+
+    this.socket.send(JSON.stringify(packet));
 
     // Clear the input field
     this.inputElement.value = "";
@@ -147,6 +206,15 @@ class Chat extends HTMLElement {
     // Scroll to the latest message
     //messageElement.scrollIntoView({ behavior: "smooth" });
   }
+
+  async loadUsername() {
+    const response = await loadUsernameApp();
+    const data = await response.json();
+
+    return data.username;
+  }
 }
 
 customElements.define("chat-component", Chat);
+
+// TODO: refactor this file

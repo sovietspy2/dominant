@@ -14,6 +14,7 @@ import "./components/TextField";
 import "./components/Toast";
 
 import { logoutApp } from "./utils/http";
+import ChatView from "./views/ChatView";
 
 
 // MAIN APP ROUTER
@@ -48,7 +49,8 @@ const router = async () => {
     { path: "/settings", view: SettingsView },
     { path: "/protected", view: ProtectedView },
     { path: "/logout", view: LogoutView},
-    { path: "/user", view: UserProfileView}
+    { path: "/user", view: UserProfileView},
+    { path: "/chat", view: ChatView }
   ];
 
   // Test each route for potential match
