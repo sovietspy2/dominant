@@ -1,10 +1,16 @@
 const WebSocket = require('ws');
+
+const jwt = require('jsonwebtoken');
+
 const server = new WebSocket.Server({ port: 8888 });
+
+const secretKey = 'your_secret_key';
 
 // Store connected clients
 const clients = new Set();
 
-server.on('connection', (socket) => {
+server.on('connection', (socket,request) => {
+
   // Add the new client to the set
   clients.add(socket);
 
@@ -24,7 +30,17 @@ server.on('connection', (socket) => {
   // Handle incoming messages from clients
   socket.on('message', (message) => {
 
+    //
+
+    //console.log(decoded);
+
     const data = JSON.parse(message);
+
+    if (data.token) {
+      /// TODO: backend API login should set a non http only cookie so we can send it via request here 
+      const decoded = jwt.verify(message, secretKey); 
+      console.log(decoded);
+    }
 
     // Broadcast the message to all other clients
     console.log("on:message: "+data.message)
@@ -40,4 +56,6 @@ server.on('connection', (socket) => {
 
 console.log('WebSocket chat server is running on port 8888');
 
-//TODO: refactor file, add TOKEN auth so username can be read from there 
+
+
+

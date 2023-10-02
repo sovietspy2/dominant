@@ -1,3 +1,4 @@
+import { getCookie } from "../utils/cookieUtils";
 import { loadUsernameApp } from "../utils/http";
 
 class Chat extends HTMLElement {
@@ -127,57 +128,22 @@ class Chat extends HTMLElement {
       }
     };
 
-    // Initialize variables for message input and chat box
     this.inputElement = this.shadowRoot.querySelector("input");
     this.chatBox = this.shadowRoot.querySelector(".chat-box");
 
-    // Add an event listener for the "Send" button
     const sendButton = this.shadowRoot.querySelector("button");
     sendButton.addEventListener("click", this.sendMessage.bind(this));
 
-    // const socket = new WebSocket("ws://localhost:5000"); // Replace with your WebSocket server URL
-    // this.socket = socket;
-
-    //     // Handle connection open event
-    //     socket.addEventListener("open", (event) => {
-    //         console.log("WebSocket connection opened.");
-    //     });
-
-    //     // Handle connection close event
-    //     socket.addEventListener("close", (event) => {
-    //         console.log("WebSocket connection closed.");
-    //     });
-
-    //     // Handle incoming messages from the server
-    //     socket.addEventListener("message", (event) => {
-    //         const messageContainer = document.getElementById("message-container");
-    //         const messageElement = document.createElement("div");
-    //         messageElement.textContent = event.data;
-    //         messageContainer.appendChild(messageElement);
-    //     });
   }
 
   async sendMessage() {
     const messageText = this.inputElement.value;
     if (messageText.trim() === "") return;
 
-    // Create a new message element
-    //const messageElement = document.createElement("div");
-    // const usernameElement = document.createElement("div");
-
-    // messageElement.className = "message user-message";
-    // usernameElement.className = "message-username";
-    // usernameElement.textContent = "You:";
-
-    //messageElement.textContent = messageText;
-
-    // Append the username and message to the chat box
-    // messageElement.appendChild(usernameElement);
-    // this.chatBox.appendChild(messageElement);
-
     const packet = {
       message: messageText,
       user: await this.loadUsername(),
+      token: getCookie("access_token_cookie")
     };
 
     const template = this.shadowRoot.getElementById("message-template");

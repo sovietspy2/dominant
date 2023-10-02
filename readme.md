@@ -9,10 +9,17 @@
 - `npm install`
 - `npm start`
 
+# dominant chat microservice
+- `cd chat-microservice`
+- `npm install`
+- `npm start`
+
 # supported versions: 
 - `Python 3.11+`
 - `npm 8.19.2+`
 
-# running app in docker
+# running app in docker - NEEDS TO BE UPDATED
 - `./docker-build-and-run.sh`
 - `visit http://localhost:8080/`
+
+TODO: add chat-microservice to DOCKER 
