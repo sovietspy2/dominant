@@ -16,5 +16,13 @@ services:
     build:
       context: ./main-backend
 
+  chat-microservice:
+    networks:
+      - app-network
+    build:
+      context: ./chat-microservice
+    depends_on:
+      - flask-app
+
 networks:
   app-network:

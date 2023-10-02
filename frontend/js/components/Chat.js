@@ -96,7 +96,8 @@ class Chat extends HTMLElement {
 
     // WEBSOCKET
 
-    this.socket = new WebSocket("ws://localhost:8888");
+    //this.socket = new WebSocket(`${process.env.WS_API}`);
+    this.socket = new WebSocket(`ws://localhost:8888/ws`);
 
     this.socket.onmessage = (event) => {
       console.log(event);

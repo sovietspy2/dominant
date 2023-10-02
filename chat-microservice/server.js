@@ -10,6 +10,7 @@ const secretKey = 'your_secret_key';
 const clients = new Set();
 
 server.on('connection', (socket,request) => {
+  console.log("Incoming connection");
 
   // Add the new client to the set
   clients.add(socket);
@@ -30,10 +31,6 @@ server.on('connection', (socket,request) => {
   // Handle incoming messages from clients
   socket.on('message', (message) => {
 
-    //
-
-    //console.log(decoded);
-
     const data = JSON.parse(message);
 
     if (data.token) {
@@ -49,6 +46,7 @@ server.on('connection', (socket,request) => {
 
   // Handle client disconnect
   socket.on('close', () => {
+    console.log("Connection closed.")
     // Remove the client from the set of connected clients
     clients.delete(socket);
   });
